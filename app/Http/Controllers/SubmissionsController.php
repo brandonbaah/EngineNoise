@@ -26,7 +26,7 @@ class SubmissionsController extends Controller
      */
     public function create()
     {
-        //
+        return view('submissions.create');
     }
 
     /**
@@ -37,7 +37,29 @@ class SubmissionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+        $sub = new Submission;
+
+        $sub->address = $request->address;
+        $sub->city = $request->city;
+        $sub->state = $request->state;
+        $sub->zip = $request->zip;
+        $sub->offer_price = (float)$request->offer_price;
+        $sub->market_value = (float)$request->market_value;
+        $sub->list_price = (float)$request->list_price;
+
+        $belowMarketPercentage = 100 - ($sub->offer_price / $sub->market_value * 100);
+        
+
+        $sub->percent_below_market = $belowMarketPercentage;
+
+        $sub->save();
+
+        $submissions = Submission::all();
+
+
+        return view('submissions.index', compact('submissions'));
     }
 
     /**
