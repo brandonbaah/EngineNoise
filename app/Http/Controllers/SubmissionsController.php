@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Submission;
+use Illuminate\Support\Facades\Auth;
 
 class SubmissionsController extends Controller
 {
@@ -14,6 +15,16 @@ class SubmissionsController extends Controller
      */
     public function index()
     {
+        $currentUser = Auth::user();
+
+
+        if ($currentUser->user_type == 1) {
+            
+            $submissions = Submission::where('user_id', $currentUser->id)->get();
+
+            return view('submissions.index', compact('submissions'));    
+        }
+        
         $submissions = Submission::all();
 
         return view('submissions.index', compact('submissions'));
