@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Submission;
-use Illuminate\Support\Facades\Auth;
 
-class SubmissionsController extends Controller
+class InvestorsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,19 +13,7 @@ class SubmissionsController extends Controller
      */
     public function index()
     {
-        $currentUser = Auth::user();
-
-
-        if ($currentUser->user_type == 1) {
-            
-            $submissions = Submission::where('user_id', $currentUser->id)->get();
-
-            return view('submissions.index', compact('submissions'));    
-        }
-        
-        $submissions = Submission::all();
-
-        return view('submissions.index', compact('submissions'));
+        //
     }
 
     /**
@@ -37,7 +23,7 @@ class SubmissionsController extends Controller
      */
     public function create()
     {
-        return view('submissions.create');
+        //
     }
 
     /**
@@ -48,29 +34,7 @@ class SubmissionsController extends Controller
      */
     public function store(Request $request)
     {
-
-
-        $sub = new Submission;
-
-        $sub->address = $request->address;
-        $sub->city = $request->city;
-        $sub->state = $request->state;
-        $sub->zip = $request->zip;
-        $sub->offer_price = (float)$request->offer_price;
-        $sub->market_value = (float)$request->market_value;
-        $sub->list_price = (float)$request->list_price;
-
-        $belowMarketPercentage = 100 - ($sub->offer_price / $sub->market_value * 100);
-        
-
-        $sub->percent_below_market = $belowMarketPercentage;
-
-        $sub->save();
-
-        $submissions = Submission::all();
-
-
-        return view('submissions.index', compact('submissions'));
+        //
     }
 
     /**
@@ -81,12 +45,7 @@ class SubmissionsController extends Controller
      */
     public function show($id)
     {
-        $submission = Submission::find($id);
-
-        // var_dump($submission);
-        // dd($submission);
-
-        return view('submissions.show', compact('submission'));
+        //
     }
 
     /**

@@ -20,7 +20,7 @@
                         <tbody>
                         @foreach($submissions as $submission)
                             <tr>
-                                <td><a href="" class="link-blue">{{$submission->address}}</a></td>
+                                <td><a href="{{ url('/submissions') }}/{{$submission}}" class="link-blue">{{$submission->address}}</a></td>
                                 <td>{{$submission->city}}</td>
 
                                 <td class="text-right">
