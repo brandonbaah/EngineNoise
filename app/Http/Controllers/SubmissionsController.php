@@ -55,8 +55,6 @@ class SubmissionsController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $sub = new Submission;
 
         $sub->address = $request->address;
@@ -96,18 +94,20 @@ class SubmissionsController extends Controller
      */
     public function show($submission)
     {
+        $submissionId = json_decode($submission)->id;
 
-        $sub = json_decode($submission);
+        $su = Submission::find($submissionId);
+        $bloomRisk = $su->bloom();
 
         $submission = DB::table('submissions')
             ->join('risk_statuses', 'risk_statuses.id', '=', 'submissions.risk_status_id')
             ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id')
-            ->where('submissions.id', '=', $sub->id)
-            ->get();
-            
-            $submission = $submission[0];
+            ->where('submissions.id', '=', $submissionId)
+            ->get()[0];
 
-        return view('submissions.show', compact('submission'));
+
+
+        return view('submissions.show', compact('submission', 'bloomRisk'));
     }
 
     /**
