@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Submission;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class SubmissionsController extends Controller
 {
@@ -96,8 +97,16 @@ class SubmissionsController extends Controller
     public function show($submission)
     {
 
-        $submission = json_decode($submission);
-        dd(Submission::find($submission->id)->aggregateDeal($request->arv, $request->repair_cost, $request->offer_price));
+        $sub = json_decode($submission);
+
+        $submission = DB::table('submissions')
+            ->join('risk_statuses', 'risk_statuses.id', '=', 'submissions.risk_status_id')
+            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id')
+            ->where('submissions.id', '=', $sub->id)
+            ->get();
+            
+            $submission = $submission[0];
+
         return view('submissions.show', compact('submission'));
     }
 

@@ -6,7 +6,7 @@
     <h2>{{$submission->address}}</h2><br>
 
     <div class="progress" style="width: 800px; height: 120px;">
-      <div class="progress-bar bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"><h2>Good Deal</h2></div>
+      <div class="progress-bar bg-success" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"><h2>{{$submission->name}}</h2></div>
     </div><br><br>
     <div align="center">
 
