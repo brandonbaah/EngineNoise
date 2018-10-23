@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Submission;
 use Illuminate\Support\Facades\Auth;
-use Input;
 
 class SubmissionsController extends Controller
 {
@@ -35,19 +34,6 @@ class SubmissionsController extends Controller
         $submissions = Submission::all();
 
         return view('submissions.index', compact('submissions'));
-    }
-
-
-    public function save(Input $inputs){
-      $choices = $inputs::get('choices');
-
-      (in_array("calculus", $choices)) ? print_r("success") : exit();
-
-      $submission = new Submission();
-      $submission->choices = $choices;
-      $submission->save();
-
-      return('Saved Successfully');
     }
 
     /**
@@ -81,11 +67,17 @@ class SubmissionsController extends Controller
         $sub->list_price = (float)$request->list_price;
         $sub->repair_cost = (float)$request->repair_cost;
         $sub->arv = (float)$request->arv;
+        $sub->user_id = Auth::user()->id;
 
-        $belowMarketPercentage = 100 - ($sub->offer_price / $sub->market_value * 100);
-
+        $belowMarketPercentage = $this->findBelowMarketPercentage($request->offer_price, $request->market_value);
 
         $sub->percent_below_market = $belowMarketPercentage;
+
+        $maximumAllowableOfferArray = $this->aggregateDeal($request->arv, $request->repair_cost, $request->offer_price);
+
+        $sub->risk_status_id = $maximumAllowableOfferArray["risk_level"];
+        $sub->mao = $maximumAllowableOfferArray["maximumAllowableOffer"];
+
 
         $sub->save();
 
@@ -105,7 +97,7 @@ class SubmissionsController extends Controller
     {
 
         $submission = json_decode($submission);
-        // dd(Submission::find($submission->id)->aggregateDeal());
+        dd(Submission::find($submission->id)->aggregateDeal($request->arv, $request->repair_cost, $request->offer_price));
         return view('submissions.show', compact('submission'));
     }
 
@@ -142,5 +134,26 @@ class SubmissionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function findBelowMarketPercentage($offer_price, $market_value){
+      $belowMarketPercentage = 100 - ($offer_price / $market_value * 100);
+      return $belowMarketPercentage;
+    }
+
+    private function aggregateDeal($arv, $repair_cost, $offer_price){
+      $closingCost = $arv * .10;
+
+      $maximumAllowableOffer = ((($arv * .70) - $repair_cost) - $closingCost);
+
+      if($maximumAllowableOffer == $offer_price){
+        $risk = 2;
+      }elseif ($offer_price > $maximumAllowableOffer) {
+        $risk = 3;
+      }else {
+        $risk = 1;
+      }
+
+      return ["maximumAllowableOffer" => $maximumAllowableOffer, "risk_level" => $risk];
     }
 }
