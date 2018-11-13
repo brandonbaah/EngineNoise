@@ -29,7 +29,10 @@
                     {{ config('app.name', 'Engine Noise') }}
                 </a>
                 <a class="" href="{{ route('submissions.index') }}" role="button"  aria-expanded="false" v-pre>
-                    Dashboard <span class="caret"></span>
+                    Dashboard&nbsp;&nbsp;<span class="caret"></span>
+                </a>
+                <a class="" href="{{ route('submissions.create') }}" role="button"  aria-expanded="false" v-pre>
+                    Create New Deal <span class="caret"></span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

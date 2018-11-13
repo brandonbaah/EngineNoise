@@ -26,13 +26,13 @@
                                 <td class="text-right">
                                     <span class=""><i class="fa fa-file-text"></i>
                                         &nbsp;
-                                        {{number_format($submission->list_price)}}
+                                        ${{number_format($submission->list_price)}}
                                     </span>
                                 </td>
                                 <td class="text-right">
                                     <span class=""><i class="fa fa-file-text"></i>
                                         &nbsp;
-                                       {{number_format($submission->offer_price)}}
+                                       ${{number_format($submission->offer_price)}}
                                     </span>
                                 </td>
                                 <td class="text-right">
@@ -44,13 +44,13 @@
                                   <td class="text-right">
                                     <span class=""><i class="fa fa-file-text"></i>
                                         &nbsp;
-                                       {{number_format($submission->repair_cost)}}
+                                       ${{number_format($submission->repair_cost)}}
                                     </span>
                                 </td>
                                   <td class="text-right">
                                     <span class=""><i class="fa fa-file-text"></i>
                                         &nbsp;
-                                       {{number_format($submission->arv)}}
+                                       ${{number_format($submission->arv)}}
                                     </span>
                                 </td>
                             </tr>
