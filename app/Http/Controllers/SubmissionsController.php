@@ -101,9 +101,13 @@ class SubmissionsController extends Controller
 
         $submission = DB::table('submissions')
             ->join('risk_statuses', 'risk_statuses.id', '=', 'submissions.risk_status_id')
-            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id')
+            ->leftJoin('likes', 'submissions.id', 'likes.submission_id')
+            ->leftJoin('users', 'users.id', 'likes.user_id')
+            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id', 'likes.id as like_id')
             ->where('submissions.id', '=', $submissionId)
             ->get()[0];
+
+            dd($submission);
 
 
 
@@ -143,6 +147,31 @@ class SubmissionsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function storeSubmissionLike(Request $request)
+    {
+      $submissionId = $request->submission_id;
+      $submission = Submission::find($submissionId);
+
+      // dd($submission);
+
+      if(!$submission){
+        return redirect()->route('submissions.index')->with(['message' => 'Error']);
+      }
+
+      $user = Auth::user();
+      $like = $user->likes()->where('submission_id', $submissionId)->first();
+
+      if($like){
+        $like->delete();
+        return redirect()->route('submissions.index')->with(['message' => 'You unliked this deal']);
+      }
+        $newLike = new Like();
+        $newLike->user_id = $user->id;
+        $newLike->submission_id = $submissionId;
+        $newLike->save();
+        return redirect()->route('submissions.index')->with(['message', array('You liked this deal', $like)]);
     }
 
     public function findBelowMarketPercentage($offer_price, $market_value){

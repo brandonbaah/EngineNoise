@@ -24,5 +24,10 @@ class Submission extends Model
       }
     }
 
+    public function likes()
+    {
+        return $this->hasMany('App\Like');
+    }
+
 
 }

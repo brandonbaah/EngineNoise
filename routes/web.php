@@ -23,3 +23,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/post', 'SubmissionsController@save')->name('save');
+
+Route::post('/like', [
+  'uses' => 'SubmissionsController@storeSubmissionLike',
+  'as' => 'like'
+]);
