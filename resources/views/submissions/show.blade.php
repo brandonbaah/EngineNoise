@@ -21,6 +21,7 @@
         Inquire
       </button> <br><br>
     </div>
+    <h4>Likes: {{$likesCount}}</h4>
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="table-responsive">

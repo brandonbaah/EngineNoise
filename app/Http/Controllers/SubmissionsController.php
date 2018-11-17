@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Submission;
+use App\Like;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
@@ -27,7 +28,16 @@ class SubmissionsController extends Controller
 
         if ($currentUser->user_type == 1) {
 
-            $submissions = Submission::where('user_id', $currentUser->id)->get();
+            $submissions = Submission::where('user_id', $currentUser->id)
+            ->get();
+
+            // $submission = DB::table('submissions')
+            //     ->join('likes', 'submissions.id', 'likes.submission_id')
+            //     ->select('submissions.*', 'submissions.id')
+            //     ->groupBy('likes.submission_id')
+            //     ->get();
+          
+
 
             return view('submissions.index', compact('submissions'));
         }
@@ -96,22 +106,30 @@ class SubmissionsController extends Controller
     {
         $submissionId = json_decode($submission)->id;
 
+        // dd($submissionId);
+
         $su = Submission::find($submissionId);
         $bloomRisk = $su->bloom();
+
+        $likesCount = DB::table('likes')
+            ->where('likes.submission_id', $submissionId)
+            ->count();
+
+
 
         $submission = DB::table('submissions')
             ->join('risk_statuses', 'risk_statuses.id', '=', 'submissions.risk_status_id')
             ->leftJoin('likes', 'submissions.id', 'likes.submission_id')
             ->leftJoin('users', 'users.id', 'likes.user_id')
-            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id', 'likes.id as like_id')
-            ->where('submissions.id', '=', $submissionId)
+            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id as risk_status_id', 'likes.id as like_id')
+            ->where('submissions.id', $submissionId)
             ->get()[0];
 
-            dd($submission);
+            // dd($submission);
 
 
 
-        return view('submissions.show', compact('submission', 'bloomRisk'));
+        return view('submissions.show', compact('submission', 'bloomRisk', 'likesCount'));
     }
 
     /**
