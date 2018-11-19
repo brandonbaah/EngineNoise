@@ -20,12 +20,12 @@
                         <tbody>
                         @foreach($submissions as $submission)
                             <tr>
-                                <td><a href="{{ url('/submissions') }}/{{$submission}}" class="link-blue">{{$submission->address}}</a></td>
-                                <td>{{$submission->city}}&nbsp;
+                                <td><a href="{{ url('/submissions') }}/{{$submission}}" class="link-blue">{{$submission->address}}</a>&nbsp;
                                   @if(count($submission->likes))
                                     <i class="far fa-thumbs-up">{{count($submission->likes)}}</i>
                                   @endif
                                 </td>
+                                <td>{{$submission->city}}&nbsp;</td>
 
                                 <td class="text-right">
                                     <span class=""><i class="fa fa-file-text"></i>

@@ -31,14 +31,6 @@ class SubmissionsController extends Controller
             $submissions = Submission::where('user_id', $currentUser->id)
             ->get();
 
-            // $submission = DB::table('submissions')
-            //     ->join('likes', 'submissions.id', 'likes.submission_id')
-            //     ->select('submissions.*', 'submissions.id')
-            //     ->groupBy('likes.submission_id')
-            //     ->get();
-          
-
-
             return view('submissions.index', compact('submissions'));
         }
 
@@ -111,25 +103,27 @@ class SubmissionsController extends Controller
         $su = Submission::find($submissionId);
         $bloomRisk = $su->bloom();
 
-        $likesCount = DB::table('likes')
-            ->where('likes.submission_id', $submissionId)
-            ->count();
 
+        $user = DB::table('likes')
+          ->join('users', 'users.id', '=', 'likes.user_id')
+          ->select('likes.user_id')
+          ->where('likes.user_id', json_decode($submission)->user_id)
+          ->get()[0]->user_id;
 
+        $userPresence = ($user == Auth::user()->id);
 
         $submission = DB::table('submissions')
             ->join('risk_statuses', 'risk_statuses.id', '=', 'submissions.risk_status_id')
             ->leftJoin('likes', 'submissions.id', 'likes.submission_id')
             ->leftJoin('users', 'users.id', 'likes.user_id')
-            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id as risk_status_id', 'likes.id as like_id')
-            ->where('submissions.id', $submissionId)
+            ->select('submissions.*', 'risk_statuses.name', 'risk_statuses.id as risk_status_id', 'likes.*', DB::raw('count(*) as total_likes'))
+            ->where('likes.submission_id', $submissionId)
+            ->groupBy('likes.submission_id')
             ->get()[0];
 
             // dd($submission);
 
-
-
-        return view('submissions.show', compact('submission', 'bloomRisk', 'likesCount'));
+        return view('submissions.show', compact('submission', 'bloomRisk', 'userPresence'));
     }
 
     /**
@@ -169,7 +163,7 @@ class SubmissionsController extends Controller
 
     public function storeSubmissionLike(Request $request)
     {
-      $submissionId = $request->submission_id;
+      $submissionId = intval($request->submission_id);
       $submission = Submission::find($submissionId);
 
       // dd($submission);
