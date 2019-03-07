@@ -22,7 +22,7 @@
                             <tr>
                                 <td><a href="{{ url('/submissions') }}/{{$submission}}" class="link-blue">{{$submission->address}}</a>&nbsp;
                                   @if(count($submission->likes))
-                                    <i class="far fa-thumbs-up">{{count($submission->likes)}}</i>
+                                    <a href=""><i class="far fa-thumbs-up">{{count($submission->likes)}}</i></a>
                                   @endif
                                 </td>
                                 <td>{{$submission->city}}&nbsp;</td>

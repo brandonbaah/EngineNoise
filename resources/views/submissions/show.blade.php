@@ -9,19 +9,11 @@
       <div class="progress-bar {{$bloomRisk}}" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"><h2>{{$submission->name}}</h2></div>
     </div><br><br>
     <div align="center">
-      <?php $likeArray = ['Like', 'Unlike'];?>
-     <form method="POST" action="{{route('like')}}">
-         <input type="hidden" name="submission_id" value="{{$submission->submission_id}}" required>
-
-         <input type="submit" value="{{ $userPresence ? $likeArray[1] : $likeArray[0]  }}" name="submit">
-         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-     </form>
       <!-- Button trigger modal -->
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Inquire
       </button> <br><br>
     </div>
-    <h4>Likes: {{$submission->total_likes}}</h4>
     <div class="row">
         <div class="col-md-12 col-sm-12">
             <div class="table-responsive">
