@@ -68,6 +68,7 @@ class SubmissionsController extends Controller
         $sub->list_price = (float)$request->list_price;
         $sub->repair_cost = (float)$request->repair_cost;
         $sub->arv = (float)$request->arv;
+        $sub->closing_date = $request->closing_date;
         $sub->user_id = Auth::user()->id;
 
         $belowMarketPercentage = $this->findBelowMarketPercentage($request->offer_price, $request->market_value);

@@ -26,13 +26,10 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ route('submissions.index') }}">
                     {{ config('app.name', 'Engine Noise') }}
                 </a>
-                <a class="" href="{{ route('submissions.index') }}" role="button"  aria-expanded="false" v-pre>
-                    Dashboard&nbsp;&nbsp;<span class="caret"></span>
-                </a>
-                <a class="" href="{{ route('submissions.create') }}" role="button"  aria-expanded="false" v-pre>
+                <a class="nav-item" href="{{ route('submissions.create') }}" role="button"  aria-expanded="false" v-pre>
                     Create New Deal <span class="caret"></span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

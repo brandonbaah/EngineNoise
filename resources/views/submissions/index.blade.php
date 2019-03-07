@@ -11,28 +11,17 @@
                         <thead>
                         <th>Address</th>
                         <th>City</th>
-                        <th class="text-right">List Price</th>
-                        <th class="text-right">Offer Price</th>
+                        <th class="text-right">Price</th>
                         <th class="text-right">PBM</th>
                         <th class="text-right">Reno Cost</th>
                         <th class="text-right">ARV</th>
+                        <th class="text-right">Closing Date</th>
                         </thead>
                         <tbody>
                         @foreach($submissions as $submission)
                             <tr>
-                                <td><a href="{{ url('/submissions') }}/{{$submission}}" class="link-blue">{{$submission->address}}</a>&nbsp;
-                                  @if(count($submission->likes))
-                                    <a href=""><i class="far fa-thumbs-up">{{count($submission->likes)}}</i></a>
-                                  @endif
-                                </td>
+                                <td><a href="{{ url('/submissions') }}/{{$submission}}" class="link-blue">{{$submission->address}}</a>&nbsp;</td>
                                 <td>{{$submission->city}}&nbsp;</td>
-
-                                <td class="text-right">
-                                    <span class=""><i class="fa fa-file-text"></i>
-                                        &nbsp;
-                                        ${{number_format($submission->list_price)}}
-                                    </span>
-                                </td>
                                 <td class="text-right">
                                     <span class=""><i class="fa fa-file-text"></i>
                                         &nbsp;
@@ -56,7 +45,14 @@
                                         &nbsp;
                                        ${{number_format($submission->arv)}}
                                     </span>
-                                </td>
+                                  </td>
+                                  <td class="text-right">
+                                    <span class=""><i class="fa fa-file-text"></i>
+                                        &nbsp;
+                                        <?php $date = date_create($submission->closing_date); ?>
+                                       {{date_format($date,"m-d-Y")}}
+                                    </span>
+                                  </td>
                             </tr>
                         @endforeach
                         </tbody>

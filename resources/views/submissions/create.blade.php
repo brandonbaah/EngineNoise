@@ -31,6 +31,9 @@
 			<div class="form-group mx-sm-3 mb-2">
 		    <input type="number" class="form-control" name="arv" placeholder="After Repair Value">
 		  </div>
+			<div class="form-group mx-sm-3 mb-2">
+		    <input type="date" class="form-control" name="closing_date" placeholder="Closing Date">
+		  </div>
 		  <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 		  <div align='center'><button type="submit" class="btn btn-primary mb-2">Submit</button></div>
