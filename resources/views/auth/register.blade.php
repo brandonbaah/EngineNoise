@@ -40,6 +40,23 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="user_type" class="col-md-4 col-form-label text-md-right">{{ __('User Type') }}</label>
+
+                            <div class="col-md-6">
+                                <input type="radio"  name="user_type" value="{{ $investor }} " >
+                                <label class="col-md-8 col-form-label text-md-left" for="user_type">Investor</label><br>
+                                <input type="radio" name="user_type" value="{{ $privateMoneyLender }}" >
+                                <label class="col-md-8 col-form-label text-md-left" for="user_type">Private Money Lender</label><br>
+
+                                @if ($errors->has('email'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                             <div class="col-md-6">

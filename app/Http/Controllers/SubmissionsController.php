@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -118,7 +117,8 @@ class SubmissionsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $submission = Submission::find($id);
+        dd($submission);
     }
 
     /**
@@ -130,7 +130,9 @@ class SubmissionsController extends Controller
      */
     public function update(Request $request, $id)
     {
+      dd("Here");
       $submission = Submission::find($id);
+      dd($submission);
 
     }
 
@@ -169,6 +171,8 @@ class SubmissionsController extends Controller
         $newLike->save();
         return redirect()->route('submissions.index')->with(['message', array('You liked this deal', $like)]);
     }
+
+
 
     public function findBelowMarketPercentage($offer_price, $market_value){
       $belowMarketPercentage = 100 - ($offer_price / $market_value * 100);
